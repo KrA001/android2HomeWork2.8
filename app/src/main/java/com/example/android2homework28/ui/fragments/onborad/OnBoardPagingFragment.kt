@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.example.android2homework28.R
 import com.example.android2homework28.databinding.FragmentOnBoardPagingBinding
+import com.example.android2homework28.utils.PreferenceHelper
 
 class OnBoardPagingFragment : Fragment() {
 
@@ -24,6 +26,7 @@ class OnBoardPagingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialize()
+        goToNoteFragment()
     }
 
     private fun initialize()= with(binding)  {
@@ -41,6 +44,15 @@ class OnBoardPagingFragment : Fragment() {
                 binding.start.isVisible = true
                 binding.lottieAnimationSecond.setAnimation(R.raw.third_animation)
             }
+        }
+    }
+
+    private fun goToNoteFragment() = with(binding) {
+        val preferenceHelper = PreferenceHelper()
+        preferenceHelper.unit(requireContext())
+        start.setOnClickListener {
+            preferenceHelper.saveBoolean = true
+            findNavController().navigate(R.id.action_onBoardFragment_to_noteFragment)
         }
     }
 
