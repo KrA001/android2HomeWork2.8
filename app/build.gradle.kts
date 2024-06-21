@@ -50,4 +50,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Kotlin
+    //Navigation
+    val nav_version = "2.7.7"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    //Lottie для анимации картинки
+    val lottieVersion = "4.2.0"
+    implementation ("com.airbnb.android:lottie:$lottieVersion")
+
+    //Dots_Indicator для точки
+    implementation ("com.tbuonomo:dotsindicator:4.3")
 }
