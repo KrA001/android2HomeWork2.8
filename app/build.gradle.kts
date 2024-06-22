@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    // Room Зависимость
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -47,6 +49,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,4 +66,10 @@ dependencies {
 
     //Dots_Indicator для точки
     implementation ("com.tbuonomo:dotsindicator:4.3")
+
+    // Room
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-ktx:$roomVersion")
+    // Room второй раз синхронизировать ато не видно будет
+    ksp("androidx.room:room-compiler:$roomVersion")
 }

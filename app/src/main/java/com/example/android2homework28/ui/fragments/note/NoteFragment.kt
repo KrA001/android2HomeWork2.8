@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android2homework22.extensions.getBackStackData
+import com.example.android2homework28.App
 import com.example.android2homework28.R
 import com.example.android2homework28.data.models.NoteModels
 import com.example.android2homework28.databinding.FragmentNoteBinding
@@ -20,7 +22,6 @@ class NoteFragment : Fragment() {
     private val binding: FragmentNoteBinding get() = _binding!!
 
     private val noteAdapter = NoteAdapter()
-    private val list : ArrayList<NoteModels> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,24 +46,20 @@ class NoteFragment : Fragment() {
     }
 
     private fun setupListeners() = with(binding) {
-//        val preferenceHelper = PreferenceHelper()
-//        preferenceHelper.unit(requireContext())
-//        btnSave.setOnClickListener {
-//            val et = edText.text.toString()
-//            preferenceHelper.text =et
-//            txtSave.text = et
-//        }
-//        txtSave.text = preferenceHelper.text
         btnAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_noteFragment_to_noteDetailFragment)
+            findNavController().navigate(R.id.action_noteFragment_to_noteDetailFragment, null,)
+//                navOptions {
+//                    anim {
+//                        enter = R.anim.slide_in_right
+//                        exit = R.anim.slide_out_left
+//                    }
+//                })
         }
     }
 
     private fun getData() {
-        getBackStackData<String>("key"){ data->
-            val noteModels = NoteModels(data)
-            list.add(noteModels)
-            noteAdapter.submitList(list)
+        App().getInstance()?.noteDao()?.getAll()?.observe(viewLifecycleOwner){
+            noteAdapter.submitList(it)
         }
     }
 

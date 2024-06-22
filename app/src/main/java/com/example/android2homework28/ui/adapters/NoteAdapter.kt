@@ -1,5 +1,7 @@
 package com.example.android2homework28.ui.adapters
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,9 +11,13 @@ import com.example.android2homework28.data.models.NoteModels
 import com.example.android2homework28.databinding.ItemNoteBinding
 
 class NoteAdapter: ListAdapter<NoteModels, NoteAdapter.ViewHolder>(DiffCallback()) {
+
     class ViewHolder(private val binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: NoteModels) {
-            binding.itemTxt.text = item.title
+            binding.itemTitle.text = item.title
+            binding.itemDescription.text = item.description
+            binding.mcPan.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(item.color)))
+            binding.tvDataTime.text = item.data
         }
     }
 
@@ -30,7 +36,7 @@ class NoteAdapter: ListAdapter<NoteModels, NoteAdapter.ViewHolder>(DiffCallback(
         }
 
         override fun areContentsTheSame(oldItem: NoteModels, newItem: NoteModels): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem.id == newItem.id
         }
     }
 }
