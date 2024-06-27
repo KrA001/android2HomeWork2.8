@@ -1,27 +1,29 @@
 package com.example.android2homework28.ui.fragments.note
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.android2homework22.extensions.getBackStackData
 import com.example.android2homework28.App
 import com.example.android2homework28.R
 import com.example.android2homework28.data.models.NoteModels
 import com.example.android2homework28.databinding.FragmentNoteBinding
+import com.example.android2homework28.interfaces.OnClickItem
 import com.example.android2homework28.ui.adapters.NoteAdapter
-import com.example.android2homework28.utils.PreferenceHelper
 
-class NoteFragment : Fragment() {
+class NoteFragment : Fragment(), OnClickItem {
 
     private var _binding: FragmentNoteBinding? = null
     private val binding: FragmentNoteBinding get() = _binding!!
 
-    private val noteAdapter = NoteAdapter()
+    private val noteAdapter = NoteAdapter(this, this)
+    private var isLinearLayout = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,20 +49,47 @@ class NoteFragment : Fragment() {
 
     private fun setupListeners() = with(binding) {
         btnAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_noteFragment_to_noteDetailFragment, null,)
-//                navOptions {
-//                    anim {
-//                        enter = R.anim.slide_in_right
-//                        exit = R.anim.slide_out_left
-//                    }
-//                })
+            findNavController().navigate(R.id.action_noteFragment_to_noteDetailFragment)
+        }
+        ivCubes.setOnClickListener {
+            toggleLayout()
         }
     }
 
+    private fun toggleLayout() {
+            if (isLinearLayout) {
+                binding.rvNote.layoutManager = GridLayoutManager(requireContext(), 2)
+            } else {
+                binding.rvNote.layoutManager = LinearLayoutManager(requireContext())
+            }
+            isLinearLayout = !isLinearLayout
+    }
+
     private fun getData() {
-        App().getInstance()?.noteDao()?.getAll()?.observe(viewLifecycleOwner){
+        App().getInstance()?.noteDao()?.getAll()?.observe(viewLifecycleOwner) {
             noteAdapter.submitList(it)
         }
+    }
+
+    override fun onLongClick(noteModels: NoteModels) {
+        val builder = AlertDialog.Builder(requireContext())
+        with(builder) {
+            setTitle("Вы точно хотите удалить")
+            setPositiveButton("Да"){dialog, which ->
+                App().getInstance()?.noteDao()?.deleteNote(noteModels)
+                //App.appDatabase?.noteDao()?.deleteNote(noteModels)
+            }
+            setNegativeButton("Нет"){deialog, which ->
+                deialog.cancel()
+            }
+            show()
+        }
+        builder.create()
+    }
+
+    override fun onClick(noteModels: NoteModels) {
+        val action = NoteFragmentDirections.actionNoteFragmentToNoteDetailFragment(noteModels.id)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {

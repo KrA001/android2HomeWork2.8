@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     // Room Зависимость
     id("com.google.devtools.ksp")
+    // сей арфс плагин
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {

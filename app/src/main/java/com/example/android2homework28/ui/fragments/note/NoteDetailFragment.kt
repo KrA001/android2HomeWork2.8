@@ -22,6 +22,7 @@ class NoteDetailFragment : Fragment() {
     private var _binding: FragmentNoteDetailBinding? = null
     private val binding: FragmentNoteDetailBinding get() = _binding!!
 
+    private var noteId: Int = -1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,10 +34,24 @@ class NoteDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        update()
         setupListene()
         setupListener()
         setupListeners()
         setupListenerss()
+    }
+
+    private fun update() {
+        arguments?.let {
+            noteId = it.getInt("noteId", -1)
+        }
+        if (noteId != -1) {
+            val argsNote = App().getInstance()?.noteDao()?.getNoteById(noteId)
+            argsNote?.let {model ->
+                binding.etTitle.setText(model.title)
+                binding.etDescription.setText(model.description)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -48,14 +63,20 @@ class NoteDetailFragment : Fragment() {
         binding.tvStr.setOnClickListener {
             val etTitle = binding.etTitle.text.toString()
             val etDescription = binding.etDescription.text.toString()
-            App().getInstance()?.noteDao()?.insertNote(
-                NoteModels(
-                    title = etTitle,
-                    description = etDescription,
-                    color = "#151515",
-                    data = data
+            if (noteId != -1) {
+                val updateNote = NoteModels(etTitle, etDescription, color = "#151515", data = data)
+                updateNote.id = noteId
+                App().getInstance()?.noteDao()?.updateNote(updateNote)
+            }else{
+                App().getInstance()?.noteDao()?.insertNote(
+                    NoteModels(
+                        title = etTitle,
+                        description = etDescription,
+                        color = "#151515",
+                        data = data
+                    )
                 )
-            )
+            }
             findNavController().navigateUp()
         }
     }
@@ -69,14 +90,20 @@ class NoteDetailFragment : Fragment() {
         binding.btnOne.setOnClickListener {
             val etTitle = binding.etTitle.text.toString()
             val etDescription = binding.etDescription.text.toString()
-            App().getInstance()?.noteDao()?.insertNote(
-                NoteModels(
-                    title = etTitle,
-                    description = etDescription,
-                    color = "#FF9800",
-                    data = data
+            if (noteId != -1) {
+                val updateNote = NoteModels(etTitle, etDescription, color = "#FF9800", data = data)
+                updateNote.id = noteId
+                App().getInstance()?.noteDao()?.updateNote(updateNote)
+            }else{
+                App().getInstance()?.noteDao()?.insertNote(
+                    NoteModels(
+                        title = etTitle,
+                        description = etDescription,
+                        color = "#FF9800",
+                        data = data
+                    )
                 )
-            )
+            }
             findNavController().navigateUp()
         }
     }
@@ -90,14 +117,20 @@ class NoteDetailFragment : Fragment() {
         binding.btnTwo.setOnClickListener {
             val etTitle = binding.etTitle.text.toString()
             val etDescription = binding.etDescription.text.toString()
-            App().getInstance()?.noteDao()?.insertNote(
-                NoteModels(
-                    title = etTitle,
-                    description = etDescription,
-                    color = "#EBE4C9",
-                    data = data
+            if (noteId != -1) {
+                val updateNote = NoteModels(etTitle, etDescription, color = "#EBE4C9", data = data)
+                updateNote.id = noteId
+                App().getInstance()?.noteDao()?.updateNote(updateNote)
+            }else{
+                App().getInstance()?.noteDao()?.insertNote(
+                    NoteModels(
+                        title = etTitle,
+                        description = etDescription,
+                        color = "#EBE4C9",
+                        data = data
+                    )
                 )
-            )
+            }
             findNavController().navigateUp()
         }
     }
@@ -111,14 +144,20 @@ class NoteDetailFragment : Fragment() {
         binding.btnThree.setOnClickListener {
             val etTitle = binding.etTitle.text.toString()
             val etDescription = binding.etDescription.text.toString()
-            App().getInstance()?.noteDao()?.insertNote(
-                NoteModels(
-                    title = etTitle,
-                    description = etDescription,
-                    color = "#571818",
-                    data = data
+            if (noteId != -1) {
+                val updateNote = NoteModels(etTitle, etDescription, color = "#571818", data = data)
+                updateNote.id = noteId
+                App().getInstance()?.noteDao()?.updateNote(updateNote)
+            }else{
+                App().getInstance()?.noteDao()?.insertNote(
+                    NoteModels(
+                        title = etTitle,
+                        description = etDescription,
+                        color = "#571818",
+                        data = data
+                    )
                 )
-            )
+            }
             findNavController().navigateUp()
         }
     }
@@ -128,11 +167,4 @@ class NoteDetailFragment : Fragment() {
         _binding = null
     }
 }
-//private fun setupListeners() {
-//    binding.btnTwo.setOnClickListener {
-//        val etTitle = binding.etTitle.text.toString()
-//        val etDescription = binding.etDescription.text.toString()
-//        App().getInstance()?.noteDao()?.insertNote(NoteModels(etTitle, etDescription))
-//        findNavController().navigateUp()
-//    }
-//}
+
