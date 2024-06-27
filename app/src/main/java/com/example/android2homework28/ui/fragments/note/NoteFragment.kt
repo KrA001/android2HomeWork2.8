@@ -77,7 +77,6 @@ class NoteFragment : Fragment(), OnClickItem {
             setTitle("Вы точно хотите удалить")
             setPositiveButton("Да"){dialog, which ->
                 App().getInstance()?.noteDao()?.deleteNote(noteModels)
-                //App.appDatabase?.noteDao()?.deleteNote(noteModels)
             }
             setNegativeButton("Нет"){deialog, which ->
                 deialog.cancel()
