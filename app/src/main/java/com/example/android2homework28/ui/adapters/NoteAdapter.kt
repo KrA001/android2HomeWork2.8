@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android2homework28.data.models.NoteModels
 import com.example.android2homework28.databinding.ItemNoteBinding
+import com.example.android2homework28.interfaces.OnClickItem
 
-class NoteAdapter: ListAdapter<NoteModels, NoteAdapter.ViewHolder>(DiffCallback()) {
+@Suppress("UNUSED_EXPRESSION")
+class NoteAdapter(private val onLongClick: OnClickItem, private val onClick: OnClickItem): ListAdapter<NoteModels, NoteAdapter.ViewHolder>(DiffCallback()) {
 
     class ViewHolder(private val binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: NoteModels) {
@@ -28,6 +30,15 @@ class NoteAdapter: ListAdapter<NoteModels, NoteAdapter.ViewHolder>(DiffCallback(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+
+        holder.itemView.setOnLongClickListener {
+            onLongClick.onLongClick(getItem(position))
+            true
+        }
+
+        holder.itemView.setOnClickListener {
+            onClick.onClick(getItem(position))
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteModels>() {
