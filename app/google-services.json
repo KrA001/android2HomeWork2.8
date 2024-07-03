@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "677132713676",
+    "project_id": "noteapp16-c67d2",
+    "storage_bucket": "noteapp16-c67d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677132713676:android:e192e9b0bf7be6efcc0c69",
+        "android_client_info": {
+          "package_name": "com.example.android2homework28"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYM9Bp2Opi8HaCzj9HhfuJlaERnDdKJ8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
