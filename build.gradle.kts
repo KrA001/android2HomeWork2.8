@@ -1,3 +1,8 @@
+buildscript {
+    dependencies {
+        classpath(libs.google.services)
+    }
+}
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.androidApplication) apply false
@@ -6,4 +11,6 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.0-1.0.21" apply false
     //SafeArgs
     id("androidx.navigation.safeargs.kotlin") version "2.5.3" apply false
+    //Firebase
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }

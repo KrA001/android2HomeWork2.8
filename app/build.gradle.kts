@@ -5,6 +5,8 @@ plugins {
     id("com.google.devtools.ksp")
     // сей арфс плагин
     id("androidx.navigation.safeargs.kotlin")
+    //Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -74,4 +76,12 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     // Room второй раз синхронизировать ато не видно будет
     ksp("androidx.room:room-compiler:$roomVersion")
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation("com.google.firebase:firebase-analytics")
+
+    //Firebase authentication
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 }
